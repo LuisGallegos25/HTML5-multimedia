@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V1</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img src="images/img-01.png" alt="IMG">
+				</div>
+
+				<form class="login100-form validate-form">
+					<span class="login100-form-title">
+						Member Login
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						<input class="input100" type="text" name="email" placeholder="Email">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" name="pass" placeholder="Password">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+					
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Login
+						</button>
+					</div>
+
+					<div class="text-center p-t-12">
+						<span class="txt1">
+							Forgot
+						</span>
+						<a class="txt2" href="#">
+							Username / Password?
+						</a>
+					</div>
+
+					<div class="text-center p-t-136">
+						<a class="txt2" href="#">
+							Create your Account
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/tilt/tilt.jquery.min.js"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+ <!-- Single Blog Start -->
+ <div class="col-12">
+  <div class="single-blog-post mb-50 wow fadeInUp" data-wow-delay="500ms">
+      <!-- Post Thumb -->
+      <div class="blog-post-thumb mb-50">
+
+              <style>#capture {
+                      display: none;
+                    }
+                    
+                    #snapshot {
+                      display: inline-block;
+                      width: 320px;
+                      height: 240px;
+                    }</style>
+              
+              <!-- The buttons to control the stream -->
+              <div class="button-group">
+                      <button id="btn-start" type="button" class="button">Start Streaming</button>
+                      <button id="btn-stop" type="button" class="button">Stop Streaming</button>
+                      <button id="btn-capture" type="button" class="button">Capture Image</button>
+                    </div>
+                    
+                    <!-- Video Element & Canvas -->
+                    <div class="play-area">
+                      <div class="play-area-sub">
+                        <h3>The Stream</h3>
+                        <video id="stream" width="320" height="240"></video>
+                      </div>
+                      <div class="play-area-sub">
+                        <h3>The Capture</h3>
+                        <canvas id="capture" width="320" height="240"></canvas>
+                        <div id="snapshot"></div>
+                      </div>
+                    </div>
+                    <script>// The buttons to start & stop stream and to capture the image
+                          var btnStart = document.getElementById( "btn-start" );
+                          var btnStop = document.getElementById( "btn-stop" );
+                          var btnCapture = document.getElementById( "btn-capture" );
+                          
+                          // The stream & capture
+                          var stream = document.getElementById( "stream" );
+                          var capture = document.getElementById( "capture" );
+                          var snapshot = document.getElementById( "snapshot" );
+                          
+                          // The video stream
+                          var cameraStream = null;
+                          
+                          // Attach listeners
+                          btnStart.addEventListener( "click", startStreaming );
+                          btnStop.addEventListener( "click", stopStreaming );
+                          btnCapture.addEventListener( "click", captureSnapshot );
+                          
+                          // Start Streaming
+                          function startStreaming() {
+                          
+                              var mediaSupport = 'mediaDevices' in navigator;
+                          
+                              if( mediaSupport && null == cameraStream ) {
+                          
+                                  navigator.mediaDevices.getUserMedia( { video: true } )
+                                  .then( function( mediaStream ) {
+                          
+                                      cameraStream = mediaStream;
+                          
+                                      stream.srcObject = mediaStream;
+                          
+                                      stream.play();
+                                  })
+                                  .catch( function( err ) {
+                          
+                                      console.log( "Unable to access camera: " + err );
+                                  });
+                              }
+                              else {
+                          
+                                  alert( 'Your browser does not support media devices.' );
+                          
+                                  return;
+                              }
+                          }
+                          
+                          // Stop Streaming
+                          function stopStreaming() {
+                          
+                              if( null != cameraStream ) {
+                          
+                                  var track = cameraStream.getTracks()[ 0 ];
+                          
+                                  track.stop();
+                                  stream.load();
+                          
+                                  cameraStream = null;
+                              }
+                          }
+                          
+                          function captureSnapshot() {
+                          
+                              if( null != cameraStream ) {
+                          
+                                  var ctx = capture.getContext( '2d' );
+                                  var img = new Image();
+                          
+                                  ctx.drawImage( stream, 0, 0, capture.width, capture.height );
+                              
+                                  img.src     = capture.toDataURL( "image/png" );
+                                  img.width   = 240;
+                          
+                                  snapshot.innerHTML = '';
+                          
+                                  snapshot.appendChild( img );
+                              }
+                          }</script>
+
+      </div>
+      <!-- Post Title -->
+      <a href="#" class="post-title">Top ten courses we love for you to try</a>
+      <!-- Post Meta -->
+      <div class="post-meta">
+          <p>By <a href="#">Simon Smith</a> | <a href="#">March 18, 2018</a> | <a
+                  href="#">3
+                  comments</a></p>
+      </div>
+      <!-- Post Excerpt -->
+      <p>Cras vitae turpis lacinia, lacinia lacus non, fermentum nisi. Donec et
+          sollicitudin
+          est, in euismod. Vitae turpis lacinia, lacinia lacus non, fermentum nisi. Donec
+          et
+          sollicitudin est.</p>
+      <!-- Read More btn -->
+      <a href="#" class="btn academy-btn btn-sm mt-15">Read More</a>
+  </div>
+</div>
+
+</div>
+</div>
